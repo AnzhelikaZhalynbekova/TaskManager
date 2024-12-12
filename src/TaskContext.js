@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 
-// Создаем контекст
+
 const TaskContext = createContext();
 
 // Хук для использования TaskContext
@@ -8,25 +8,29 @@ export function useTaskContext() {
   return useContext(TaskContext);
 }
 
-// Компонент-поставщик контекста
-export function TaskProvider({ children }) {
-  // Состояние для задач
+// Кастомный хук для управления задачами
+export function useTaskManager() {
   const [tasks, setTasks] = useState([]);
 
-  // Функция для добавления новой задачи
   const addTask = (task) => {
     if (task) {
       setTasks((prevTasks) => [...prevTasks, task]);
     }
   };
 
-  // Функция для удаления задачи
   const deleteTask = (taskToDelete) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task !== taskToDelete));
   };
 
+  return { tasks, addTask, deleteTask };
+}
+
+// Компонент-поставщик контекста
+export function TaskProvider({ children }) {
+  const taskManager = useTaskManager(); // Используем кастомный хук внутри TaskProvider
+
   return (
-    <TaskContext.Provider value={{ tasks, addTask, deleteTask }}>
+    <TaskContext.Provider value={taskManager}>
       {children}
     </TaskContext.Provider>
   );

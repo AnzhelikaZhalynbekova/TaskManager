@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
-import { useTaskContext } from './TaskContext';
+import { useTaskContext } from './TaskContext'; 
 
 function App() {
-  const { tasks, addTask, deleteTask } = useTaskContext(); 
+  const { tasks, addTask, deleteTask } = useTaskContext(); // Используем контекст для получения данных и функций
   const [newTask, setNewTask] = useState('');
 
   return (
