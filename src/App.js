@@ -1,32 +1,23 @@
 import React, { useState } from 'react';
+import AddTask from './components/AddTask';
+import TaskList from './components/TaskList';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [taskInput, setTaskInput] = useState('');
+  const [newTask, setNewTask] = useState('');
 
-  const addTask = () => {
-    if (taskInput.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), text: taskInput }]);
-      setTaskInput('');
+  const addTask = (task) => {
+    if (task) {
+      setTasks([...tasks, task]);
+      setNewTask('');
     }
   };
 
   return (
     <div className="App">
       <h1>Task Manager</h1>
-      <input
-        type="text"
-        value={taskInput}
-        onChange={(e) => setTaskInput(e.target.value)}
-        placeholder="Enter a task"
-      />
-      <button onClick={addTask}>Add Task</button>
-
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>{task.text}</li>
-        ))}
-      </ul>
+      <AddTask newTask={newTask} setNewTask={setNewTask} addTask={addTask} />
+      <TaskList tasks={tasks} />
     </div>
   );
 }
